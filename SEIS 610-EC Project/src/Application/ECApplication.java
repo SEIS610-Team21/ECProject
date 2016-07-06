@@ -18,13 +18,16 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import Library.BinaryTree;
+import Modules.Context;
 
 public class ECApplication extends JFrame {
 	BinaryTree tree;
+	Context context;
 	JTextArea textOutput;
 
 	public ECApplication() {
 		tree = new BinaryTree();
+		context = Context.getInstance();
 		initUI();
 	}
 
