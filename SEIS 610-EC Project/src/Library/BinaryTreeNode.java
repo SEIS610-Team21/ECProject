@@ -13,20 +13,20 @@ public abstract class BinaryTreeNode {
 	{
 		return 0.0f;
 	}
-	public void crossOver(BinaryTreeNode otherNode)
-	{
-		//To be implemented
-	}
-	public void mutate()
-	{
-		//To be implemented
-	}
 
+	public abstract boolean mutate();
 	public abstract boolean isOperator();
 	
 	public boolean hasChild()
 	{
 		return right!=null;
 	}
+	public abstract BinaryTreeNode clone();
 	
+	public boolean isEqual(BinaryTreeNode other)
+	{
+		boolean _result;
+		_result = (this.data == other.data);		
+		return _result;
+	}
 }

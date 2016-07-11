@@ -114,7 +114,9 @@ public class ECApplication extends JFrame {
 	private void processNaturalSelection()
 	{
 		String output;
-		output = operations.processNaturalSelection();
+		output ="\n"+"After Process:"+"\n";
+		output += operations.processNaturalSelection();
+		//textOutput.append(output);
 		textOutput.setText(output);
 	}
 

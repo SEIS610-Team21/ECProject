@@ -1,5 +1,7 @@
 package Library;
 
+import java.util.Random;
+
 public class OperatorNode extends BinaryTreeNode {
 
 	public OperatorNode(char data) {
@@ -28,20 +30,41 @@ public class OperatorNode extends BinaryTreeNode {
 	}
 
 	@Override
-	public void crossOver(BinaryTreeNode otherNode) {
-		// TODO Auto-generated method stub
-		super.crossOver(otherNode);
-	}
-
-	@Override
-	public void mutate() {
-		// TODO Auto-generated method stub
-		super.mutate();
+	public boolean mutate() {
+		Random rand = new Random();
+		rand.setSeed(System.currentTimeMillis());
+		char rVal = (char) (rand.nextInt(6) + 42);
+		if (rVal == '.' || rVal == ',')
+			return false;
+		else {
+			this.data = rVal;
+			return true;
+		}
 	}
 
 	@Override
 	public boolean isOperator() {
 		return true;
 	}
+
+	@Override
+	public BinaryTreeNode clone() {
+		OperatorNode _result = new OperatorNode(data);
+		_result.left = this.left.clone();
+		_result.right = this.right.clone();
+		_result.data = this.data;
+		return _result;
+	}
+
+	@Override
+	public boolean isEqual(BinaryTreeNode other) {
+		boolean _result; 		
+		_result = super.isEqual(other);
+		_result = _result && (this.left.isEqual(other.left));
+		_result =_result && (this.right.isEqual(other.right));
+		return _result;
+	}
+	
+	
 
 }

@@ -1,26 +1,29 @@
 package Brokers;
 
+import java.util.ArrayList;
 import java.util.Random;
 import Library.BinaryTree;
 import Modules.Context;
 
 public class PopulationGenerator {
 	Random rand;
+	boolean hasPoly;
 
 	public PopulationGenerator() {
 		rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
 	}
 
-	public void generateFirstGeneration(BinaryTree[] set, int populationSize) {
+	public void generateFirstGeneration(ArrayList<BinaryTree> set, int populationSize) {
 		for (int i = 0; i < populationSize; i++) {
+			hasPoly=false;
 			BinaryTree curTree = null;
 			try {
 				curTree = this.generateRandomExpression(Context.getInstance().treeDepth);
 			} catch (StackOverflowError e) {
 			}
 			if (curTree != null)
-				set[i] = curTree;
+				set.add(i, curTree);
 			else
 				i--;
 		}
@@ -60,6 +63,16 @@ public class PopulationGenerator {
 		_result += generateExpression(depth);
 		return _result;
 	}
+	
+	private String generateNthDegreeOperand(int degree)
+	{
+		String _result="x";
+		for(int i=1; i<degree; i++)
+		{
+			_result +="*x";
+		}
+		return _result;
+	}
 
 	private String generateExpression(int depth) {
 		String _result = "";
@@ -67,6 +80,11 @@ public class PopulationGenerator {
 		int rInt = rand.nextInt(depth);
 		if (rInt == 0)
 			_result = generateOperand();
+		else if(rInt==(depth-1) && !hasPoly)
+		{
+			_result ="("+generateNthDegreeOperand(Context.getInstance().degree)+")";
+			hasPoly=true;
+		}
 		else
 			_result = "(" + generateSubExpression(depth - 2) + ")";
 		return _result;

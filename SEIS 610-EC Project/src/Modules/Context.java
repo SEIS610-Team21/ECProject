@@ -21,11 +21,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class Context {
-	static Context myInstance;
+	private static Context myInstance;
 	Document myDocument;
 	public int populationSize;
 	public int treeDepth;
 	public int degree;
+	public int survivalThreshold;
+	public int trainingDataFrom;
+	public int trainingDataTo;
+	public int trainingDataCount;
 
 	private Context() {
 		loadConfig();
@@ -61,6 +65,14 @@ public class Context {
 							.parseInt((eElement.getElementsByTagName("TreeDepth").item(0).getTextContent()));
 					this.degree = Integer
 							.parseInt((eElement.getElementsByTagName("PolyDegree").item(0).getTextContent()));
+					this.survivalThreshold = Integer
+							.parseInt((eElement.getElementsByTagName("SurvivalThreshold").item(0).getTextContent()));
+					this.trainingDataFrom = Integer
+							.parseInt((eElement.getElementsByTagName("TrainingDataFrom").item(0).getTextContent()));
+					this.trainingDataTo = Integer
+							.parseInt((eElement.getElementsByTagName("TrainingDataTo").item(0).getTextContent()));
+					this.trainingDataCount = Integer
+							.parseInt((eElement.getElementsByTagName("TrainingDataCount").item(0).getTextContent()));
 				}
 			}
 		} catch (Exception e) {

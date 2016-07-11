@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Config>
-	<PopulationSize>100</PopulationSize>
-	<TreeDepth>10</TreeDepth>
+	<PopulationSize>5</PopulationSize>
+	<TreeDepth>8</TreeDepth>
 	<PolyDegree>2</PolyDegree>
+	<SurvivalThreshold>1000</SurvivalThreshold>
+	<TrainingDataFrom>-100</TrainingDataFrom>
+	<TrainingDataTo>100</TrainingDataTo>
+	<TrainingDataCount>100</TrainingDataCount>
 </Config>

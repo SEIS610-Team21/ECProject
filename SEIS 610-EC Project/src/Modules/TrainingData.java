@@ -9,6 +9,7 @@ public class TrainingData {
 
 	private static TrainingData myInstance;
 	public double[][] dataSet;
+	public BinaryTree targetExp;
 	public int length;
 	
 	private TrainingData(){}
@@ -22,16 +23,22 @@ public class TrainingData {
 	public void Generate(int size,BinaryTree target)
 	{
 		Random rand = new Random();
-		length=size;
+		int range = Context.getInstance().trainingDataTo - Context.getInstance().trainingDataFrom;
+		length=size; this.targetExp=target;
 		rand.setSeed(System.currentTimeMillis());
 		dataSet = new double[size][2];
 		int x;
 		for(int i =0 ; i < size; i++)
 		{
-			x=rand.nextInt(100)-50;
+			x=rand.nextInt(range)+Context.getInstance().trainingDataFrom;
 			dataSet[i][0] = x;
 			dataSet[i][1] = target.root.evaluate(x);
 		}
+	}
+	
+	public void regenerate()
+	{
+		this.Generate(this.length, this.targetExp);
 	}
 	
 	
