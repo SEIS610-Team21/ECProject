@@ -23,9 +23,9 @@ import org.w3c.dom.NodeList;
 public class Context {
 	static Context myInstance;
 	Document myDocument;
-	int populationSize;
-	int treeDepth;
-	int degree;
+	public int populationSize;
+	public int treeDepth;
+	public int degree;
 
 	private Context() {
 		loadConfig();

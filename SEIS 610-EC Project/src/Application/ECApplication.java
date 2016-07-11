@@ -14,27 +14,20 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-
-import Brokers.PopulationGenerator;
 import Library.BinaryTree;
-import Modules.Context;
-import Modules.TrainingData;
+
 
 public class ECApplication extends JFrame {
 
-	BinaryTree tree;
-	BinaryTree[] trees;
-	Context context;
-	PopulationGenerator generator;
+	BinaryTree targetExp;
+	ECOperations operations;
 	JTextArea textOutput;
 
 	public ECApplication() {
-		tree = new BinaryTree();
-		context = Context.getInstance();
-		generator = new PopulationGenerator();
-		trees = new BinaryTree[10];
-		generator.generateFirstGeneration(trees, 10);
-		
+		targetExp = new BinaryTree();
+
+		operations = new ECOperations();
+		operations.generateFirstGeneration();
 		initUI();
 	}
 
@@ -66,7 +59,7 @@ public class ECApplication extends JFrame {
 		JPanel centerPanel = new JPanel(null);
 		centerPanel.setLocation(10, 100);
 		centerPanel.setSize(560, 380);
-		centerPanel.setBorder(new TitledBorder(new EtchedBorder(),""));
+		centerPanel.setBorder(new TitledBorder(new EtchedBorder(), ""));
 		//
 		textOutput = new JTextArea();
 		textOutput.setLocation(10, 10);
@@ -76,7 +69,7 @@ public class ECApplication extends JFrame {
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		centerPanel.add(scroll);
-	centerPanel.add(textOutput);
+		centerPanel.add(textOutput);
 		//
 		frame.add(centerPanel);
 		//
@@ -92,14 +85,14 @@ public class ECApplication extends JFrame {
 				Evaluate('(' + txtTargetExp.getText() + ')');
 			}
 		});
-		//Menu Bar
+		// Menu Bar
 		JMenuBar mBar = new JMenuBar();
 		JMenu menu = new JMenu("Config");
 		menu.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		mBar.add(menu);
@@ -112,25 +105,23 @@ public class ECApplication extends JFrame {
 		this.setVisible(true);
 	}
 
-	public String StringifyTreeArray() {
-		String _result = "";
-		for (int i = 0; i < trees.length; i++) {
-			_result += trees[i].toString() + " ==>> " + trees[i].evaluate() + "\n";
-		}
-		return _result;
+	private void evaluateFirstGeneration(String inputExp) {
+		String output;
+		output = operations.evaluateFirstGeneration(inputExp, targetExp);
+		textOutput.setText(output);
+	}
+	
+	private void processNaturalSelection()
+	{
+		String output;
+		output = operations.processNaturalSelection();
+		textOutput.setText(output);
 	}
 
 	private void Evaluate(String inputExp) {
-		String output;
-		tree=new BinaryTree();
-		tree.buildFromString(inputExp);
-		TrainingData.getInstance().Generate(100, tree);
+		evaluateFirstGeneration(inputExp);
 		//
-		output = "The Target Expression : ";
-		output += tree.inOrder(tree.root) + "\n\n";
-		output += "First generation expressions" + "\n";
-		output += StringifyTreeArray();
-		textOutput.setText(output);
+		processNaturalSelection();
 	}
 
 	public static void main(String[] args) {

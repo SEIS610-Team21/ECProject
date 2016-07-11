@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Config>
-	<PopulationSize>20</PopulationSize>
-	<TreeDepth>5</TreeDepth>
+	<PopulationSize>100</PopulationSize>
+	<TreeDepth>10</TreeDepth>
 	<PolyDegree>2</PolyDegree>
 </Config>

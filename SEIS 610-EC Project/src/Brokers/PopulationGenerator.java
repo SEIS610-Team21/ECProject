@@ -2,6 +2,7 @@ package Brokers;
 
 import java.util.Random;
 import Library.BinaryTree;
+import Modules.Context;
 
 public class PopulationGenerator {
 	Random rand;
@@ -15,7 +16,7 @@ public class PopulationGenerator {
 		for (int i = 0; i < populationSize; i++) {
 			BinaryTree curTree = null;
 			try {
-				curTree = this.generateRandomExpression(10);
+				curTree = this.generateRandomExpression(Context.getInstance().treeDepth);
 			} catch (StackOverflowError e) {
 			}
 			if (curTree != null)
