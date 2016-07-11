@@ -1,33 +1,40 @@
 package Application;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
-
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
+import Brokers.PopulationGenerator;
 import Library.BinaryTree;
 import Modules.Context;
+import Modules.TrainingData;
 
 public class ECApplication extends JFrame {
+
 	BinaryTree tree;
+	BinaryTree[] trees;
 	Context context;
+	PopulationGenerator generator;
 	JTextArea textOutput;
 
 	public ECApplication() {
 		tree = new BinaryTree();
 		context = Context.getInstance();
+		generator = new PopulationGenerator();
+		trees = new BinaryTree[10];
+		generator.generateFirstGeneration(trees, 10);
+		
 		initUI();
 	}
 
@@ -49,16 +56,6 @@ public class ECApplication extends JFrame {
 		txtTargetExp.setSize(200, 25);
 		topPanel.add(txtTargetExp);
 		//
-		JLabel lblXValue = new JLabel("Enter X Value");
-		lblXValue.setLocation(20, 50);
-		lblXValue.setSize(200, 25);
-		topPanel.add(lblXValue);
-		//
-		JTextField txtXValue = new JTextField();
-		txtXValue.setLocation(240, 50);
-		txtXValue.setSize(200, 25);
-		topPanel.add(txtXValue);
-		//
 		JButton btnExecute = new JButton("Evaluate");
 		btnExecute.setLocation(460, 15);
 		btnExecute.setSize(100, 60);
@@ -68,12 +65,18 @@ public class ECApplication extends JFrame {
 		//
 		JPanel centerPanel = new JPanel(null);
 		centerPanel.setLocation(10, 100);
-		centerPanel.setSize(560, 400);
+		centerPanel.setSize(560, 380);
+		centerPanel.setBorder(new TitledBorder(new EtchedBorder(),""));
 		//
 		textOutput = new JTextArea();
 		textOutput.setLocation(10, 10);
 		textOutput.setSize(540, 480);
-		centerPanel.add(textOutput);
+		textOutput.setEditable(false);
+		JScrollPane scroll = new JScrollPane(textOutput);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		centerPanel.add(scroll);
+	centerPanel.add(textOutput);
 		//
 		frame.add(centerPanel);
 		//
@@ -86,9 +89,21 @@ public class ECApplication extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Evaluate('(' + txtTargetExp.getText() + ')', Integer.parseInt(txtXValue.getText()));
+				Evaluate('(' + txtTargetExp.getText() + ')');
 			}
 		});
+		//Menu Bar
+		JMenuBar mBar = new JMenuBar();
+		JMenu menu = new JMenu("Config");
+		menu.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		mBar.add(menu);
+		this.setJMenuBar(mBar);
 		//
 		this.add(frame);
 		this.setTitle("EC System");
@@ -97,28 +112,29 @@ public class ECApplication extends JFrame {
 		this.setVisible(true);
 	}
 
-	private void Evaluate(String inputExp, int xValue) {
+	public String StringifyTreeArray() {
+		String _result = "";
+		for (int i = 0; i < trees.length; i++) {
+			_result += trees[i].toString() + " ==>> " + trees[i].evaluate() + "\n";
+		}
+		return _result;
+	}
+
+	private void Evaluate(String inputExp) {
 		String output;
+		tree=new BinaryTree();
 		tree.buildFromString(inputExp);
-		double _result = tree.evaluate(xValue);
-		output = "The Expression is : ";
-		output += tree.inOrder(tree.root)+"\n";
-		output += "The Value of expression is " + _result;
+		TrainingData.getInstance().Generate(100, tree);
+		//
+		output = "The Target Expression : ";
+		output += tree.inOrder(tree.root) + "\n\n";
+		output += "First generation expressions" + "\n";
+		output += StringifyTreeArray();
 		textOutput.setText(output);
 	}
 
 	public static void main(String[] args) {
-
 		ECApplication app = new ECApplication();
-
-		// Scanner scan = new Scanner(System.in);
-
-		// System.out.println("Enter equation in infix form");
-		// tree.buildFromString(scan.next());
-
-		// System.out.println("\n\nEvaluated Result : " +
-		// tree.evaluate(scan.nextInt()));
-		// scan.close();
 	}
 
 }

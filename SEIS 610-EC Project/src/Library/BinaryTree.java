@@ -1,12 +1,16 @@
 package Library;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 import Brokers.NodeCreationBroker;
+import Modules.TrainingData;
 
 public class BinaryTree {
 
 	public BinaryTreeNode root;
+	public double[] eValues;
+	public double fitnessValue;
 
 	public BinaryTree() {
 		//
@@ -15,7 +19,7 @@ public class BinaryTree {
 	private BinaryTreeNode _build(char expression[]) {
 		BinaryTreeNode _result;
 
-		Stack<BinaryTreeNode> st = new Stack();
+		Stack<BinaryTreeNode> st = new Stack<BinaryTreeNode>();
 		BinaryTreeNode node;
 
 		for (int i = 0; i < expression.length; i++) {
@@ -62,8 +66,16 @@ public class BinaryTree {
 		this.root = _buildInfix(expArray);
 	}
 
-	public double evaluate(int x) {
-		return root.evaluate(x);
+	public double evaluate() {
+		TrainingData data = TrainingData.getInstance();
+		double total = 0.0;
+		this.eValues = new double[data.length];
+		for (int i = 0; i < data.length; i++) {
+			this.eValues[i] =Math.abs((root.evaluate((int) (data.dataSet[i][0]))-(data.dataSet[i][1])));
+			total += this.eValues[i];
+		}
+		this.fitnessValue = total / data.length;
+		return this.fitnessValue;
 	}
 
 	public String inOrder(BinaryTreeNode node) {
@@ -79,6 +91,20 @@ public class BinaryTree {
 
 		}
 		return _result;
+	}
+
+	public int getDepth(BinaryTreeNode node) {
+		int _result = 0;
+		if (node != null)
+			_result = 1 + Math.max(getDepth(node.left), getDepth(node.right));
+		else
+			_result = 1;
+		return _result;
+	}
+
+	@Override
+	public String toString() {
+		return inOrder(root);
 	}
 
 }
