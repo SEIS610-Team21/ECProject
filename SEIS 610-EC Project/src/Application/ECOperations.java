@@ -62,50 +62,52 @@ public class ECOperations {
 		trees.sort(new Comparator<BinaryTree>() {
 			@Override
 			public int compare(BinaryTree o1, BinaryTree o2) {
-				if (o1.fitnessValue > o2.fitnessValue)
-					return 1;
-				else if (o1.fitnessValue == o2.fitnessValue)
-					return 0;
-				else
-					return -1;
+				return Double.compare(o1.fitnessValue, o2.fitnessValue);
+				// if (o1.fitnessValue > o2.fitnessValue)
+				// return 1;
+				// else if (o1.fitnessValue < o2.fitnessValue)
+				// return -1;
+				// else if (o1.fitnessValue == o1.fitnessValue)
+				// return 0;
+				// else
+				// return -1;
 			}
 
 		});
-		for (int i = 0; i < trees.size() / 2; i++) {
+		int cutOffRange = Math.round(trees.size() * ((float) (context.survivalThreshold) / 100));
+		for (int i = 0; i < cutOffRange; i++) {
 			curTree = trees.get(i);
-			if (curTree.fitnessValue <= context.survivalThreshold) {
-				if (!expressionExists(curTree)) {
-					this.currentGeneration.add(index, curTree);
-					index++;
-				}
+			if (!expressionExists(curTree)) {
+				this.currentGeneration.add(index, curTree);
+				index++;
 			}
 		}
-		//this.currentGeneration = trees;
 	}
 
 	private void processCrossOver() {
 		BinaryTree curTree, secondTree, newTree;
 		Random rand = new Random();
+		Random probability = new Random();
 		rand.setSeed(System.currentTimeMillis());
 		int firstTreeNode, secondTreeNode, size;
 		size = currentGeneration.size();
-		if (size % 2 != 0)
-			size -= 1;
 		if (size == 1)
-			return;// no crossover for single tree
-		for (int i = 0; i < size; i += 2) {
-			curTree = currentGeneration.get(i);
-			newTree = curTree;
-			secondTree = currentGeneration.get(i + 1);
-			firstTreeNode = rand.nextInt(context.treeDepth / 2) + 1;
-			secondTreeNode = rand.nextInt(context.treeDepth / 2) + 1;
-			if ((newTree.crossOver(secondTree, secondTreeNode, firstTreeNode))) {
-				if (!expressionExists(newTree)) {
-					newTree.evaluate();
-					currentGeneration.add(newTree);
-				}
-			} else
-				i -= 2;// Retry for same index in case of failed crossover
+			return;// no crossover for single parent
+		for (int i = 0; i < size - 1; i++) {
+			if (probability.nextDouble() < context.crossoverProbability) {
+				curTree = currentGeneration.get(i);
+				newTree = curTree;
+				secondTree = currentGeneration.get(i + 1);
+				firstTreeNode = rand.nextInt(context.treeDepth / 2) + 1;
+				secondTreeNode = rand.nextInt(context.treeDepth / 2) + 1;
+				if ((newTree.crossOver(secondTree, secondTreeNode, firstTreeNode))) {
+					if (!expressionExists(newTree)) {
+						newTree.evaluate();
+						currentGeneration.add(newTree);
+					}
+				} else if (i > 0)
+					i--;// Retry for same index in case of failed crossover
+			}
 		}
 
 	}
@@ -113,13 +115,12 @@ public class ECOperations {
 	private void processMutation() {
 		BinaryTree curTree, newTree;
 		Random rand = new Random();
-		rand.setSeed(System.currentTimeMillis());
-		int nodeIndex, size, pickThis;
+		int nodeIndex, size;
+
 		size = currentGeneration.size();
 
 		for (int i = 0; i < size; i++) {
-			pickThis = rand.nextInt(100);
-			if (pickThis % 3 == 0) { // Only mutate some trees
+			if (rand.nextDouble() <= context.mutationProbability) {
 				curTree = currentGeneration.get(i);
 				newTree = curTree.clone();
 				nodeIndex = rand.nextInt(context.treeDepth);
@@ -146,7 +147,7 @@ public class ECOperations {
 			processTerminationOfUnfit();
 			processCrossOver();
 			processMutation();
-			output += "\nPass Index :" + passIndex + "\n";
+			output += "\nIteration # " + (passIndex + 1) + "\n";
 			passIndex++;
 			output += StringifyCurrentGeneration();
 		}

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Config>
-	<PopulationSize>5</PopulationSize>
-	<TreeDepth>8</TreeDepth>
+	<PopulationSize>200</PopulationSize>
+	<TreeDepth>10</TreeDepth>
 	<PolyDegree>2</PolyDegree>
-	<SurvivalThreshold>1000</SurvivalThreshold>
+	<SurvivalThreshold>50</SurvivalThreshold>
 	<TrainingDataFrom>-100</TrainingDataFrom>
 	<TrainingDataTo>100</TrainingDataTo>
 	<TrainingDataCount>100</TrainingDataCount>
+	<MutationProbability>0.8</MutationProbability>
+	<CrossoverProbability>0.8</CrossoverProbability>
 </Config>

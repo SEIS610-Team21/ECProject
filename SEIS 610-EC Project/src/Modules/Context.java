@@ -26,10 +26,13 @@ public class Context {
 	public int populationSize;
 	public int treeDepth;
 	public int degree;
-	public int survivalThreshold;
+	public int survivalThreshold;//Percentage value
 	public int trainingDataFrom;
 	public int trainingDataTo;
 	public int trainingDataCount;
+	public double mutationProbability;
+	public double crossoverProbability;
+
 
 	private Context() {
 		loadConfig();
@@ -73,6 +76,10 @@ public class Context {
 							.parseInt((eElement.getElementsByTagName("TrainingDataTo").item(0).getTextContent()));
 					this.trainingDataCount = Integer
 							.parseInt((eElement.getElementsByTagName("TrainingDataCount").item(0).getTextContent()));
+					this.mutationProbability = Double
+							.parseDouble((eElement.getElementsByTagName("MutationProbability").item(0).getTextContent()));
+					this.crossoverProbability = Double
+							.parseDouble((eElement.getElementsByTagName("CrossoverProbability").item(0).getTextContent()));
 				}
 			}
 		} catch (Exception e) {

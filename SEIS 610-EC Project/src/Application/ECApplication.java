@@ -116,8 +116,8 @@ public class ECApplication extends JFrame {
 		String output;
 		output ="\n"+"After Process:"+"\n";
 		output += operations.processNaturalSelection();
-		//textOutput.append(output);
-		textOutput.setText(output);
+		textOutput.append(output);
+		//textOutput.setText(output);
 	}
 
 	private void Evaluate(String inputExp) {
