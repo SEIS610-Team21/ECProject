@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Config>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Config>
 	<PopulationSize>200</PopulationSize>
 	<TreeDepth>10</TreeDepth>
 	<PolyDegree>2</PolyDegree>

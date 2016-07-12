@@ -90,7 +90,7 @@ public class Context {
 	public void saveConfig() throws TransformerFactoryConfigurationError, TransformerException
 	{
 		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		Result output = new StreamResult(new File("/res/Config/config.xml"));
+		Result output = new StreamResult(new File("./res/Config/config.xml"));
 		Source input = new DOMSource(myDocument);
 
 		transformer.transform(input, output);
