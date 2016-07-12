@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -87,12 +88,12 @@ public class ECApplication extends JFrame {
 		});
 		// Menu Bar
 		JMenuBar mBar = new JMenuBar();
-		JMenu menu = new JMenu("Config");
+		JMenuItem menu = new JMenuItem("Config");
 		menu.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				ECSettings settings = new ECSettings();				
 			}
 		});
 		mBar.add(menu);
