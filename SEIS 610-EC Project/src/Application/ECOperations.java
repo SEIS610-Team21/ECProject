@@ -55,9 +55,8 @@ public class ECOperations {
 		output += StringifyCurrentGeneration();
 		return output;
 	}
-	
-	private void sortTree(ArrayList<BinaryTree> trees)
-	{
+
+	private void sortTree(ArrayList<BinaryTree> trees) {
 		trees.sort(new Comparator<BinaryTree>() {
 			@Override
 			public int compare(BinaryTree o1, BinaryTree o2) {
@@ -88,7 +87,7 @@ public class ECOperations {
 		Random rand = new Random();
 		Random probability = new Random();
 		rand.setSeed(System.currentTimeMillis());
-		int firstTreeNode, secondTreeNode, size;
+		int firstTreeNode, secondTreeNode, size, retries = 0;
 		boolean retry = false;
 		size = currentGeneration.size();
 		if (size == 1)
@@ -96,8 +95,12 @@ public class ECOperations {
 		for (int i = 0; i < size - 1; i++) {
 			if (probability.nextDouble() < context.crossoverProbability || retry) {
 				if (retry) {
-					i--;
+					i--; retries++;
 					retry = false;
+				}
+				if(retries>=5)
+				{
+					retries=0; continue;
 				}
 				curTree = currentGeneration.get(i);
 				newTree = curTree;
@@ -108,6 +111,7 @@ public class ECOperations {
 					if (!expressionExists(newTree)) {
 						newTree.evaluate();
 						currentGeneration.add(newTree);
+						retries=0;
 					}
 				} else if (i > 0)
 					retry = true;// Retry for same index in case of failed
@@ -164,8 +168,8 @@ public class ECOperations {
 			txtOutput.append(output);
 		}
 	}
-	public BinaryTree getResultExpression()
-	{
+
+	public BinaryTree getResultExpression() {
 		this.sortTree(this.currentGeneration);
 		return this.currentGeneration.get(0);
 	}
