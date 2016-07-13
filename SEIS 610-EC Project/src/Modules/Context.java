@@ -32,6 +32,7 @@ public class Context {
 	public int trainingDataCount;
 	public double mutationProbability;
 	public double crossoverProbability;
+	public int maxIterations;
 
 
 	private Context() {
@@ -80,6 +81,8 @@ public class Context {
 							.parseDouble((eElement.getElementsByTagName("MutationProbability").item(0).getTextContent()));
 					this.crossoverProbability = Double
 							.parseDouble((eElement.getElementsByTagName("CrossoverProbability").item(0).getTextContent()));
+					this.maxIterations=Integer
+							.parseInt((eElement.getElementsByTagName("MaximumIterations").item(0).getTextContent()));
 				}
 			}
 		} catch (Exception e) {

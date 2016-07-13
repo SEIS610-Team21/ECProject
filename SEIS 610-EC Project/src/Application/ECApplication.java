@@ -26,9 +26,7 @@ public class ECApplication extends JFrame {
 
 	public ECApplication() {
 		targetExp = new BinaryTree();
-
-		operations = new ECOperations();
-		operations.generateFirstGeneration();
+		operations = new ECOperations();		
 		initUI();
 	}
 
@@ -114,14 +112,13 @@ public class ECApplication extends JFrame {
 	
 	private void processNaturalSelection()
 	{
-		String output;
-		output ="\n"+"After Process:"+"\n";
-		output += operations.processNaturalSelection();
-		textOutput.append(output);
-		//textOutput.setText(output);
+		textOutput.append("\n"+"After Process:"+"\n");
+		operations.processNaturalSelection(textOutput);
 	}
 
 	private void Evaluate(String inputExp) {
+		textOutput.setText("");//Reset output
+		operations.generateFirstGeneration();
 		evaluateFirstGeneration(inputExp);
 		//
 		processNaturalSelection();

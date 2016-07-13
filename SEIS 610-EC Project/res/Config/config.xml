@@ -3,6 +3,7 @@
 	<TreeDepth>10</TreeDepth>
 	<PolyDegree>2</PolyDegree>
 	<SurvivalThreshold>50</SurvivalThreshold>
+	<MaximumIterations>100</MaximumIterations>
 	<TrainingDataFrom>-100</TrainingDataFrom>
 	<TrainingDataTo>100</TrainingDataTo>
 	<TrainingDataCount>100</TrainingDataCount>

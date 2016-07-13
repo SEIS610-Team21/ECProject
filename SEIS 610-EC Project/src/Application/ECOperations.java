@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
+import javax.swing.JTextArea;
+
 import Brokers.PopulationGenerator;
 import Library.BinaryTree;
 import Modules.Context;
@@ -90,11 +92,16 @@ public class ECOperations {
 		Random probability = new Random();
 		rand.setSeed(System.currentTimeMillis());
 		int firstTreeNode, secondTreeNode, size;
+		boolean retry = false;
 		size = currentGeneration.size();
 		if (size == 1)
 			return;// no crossover for single parent
 		for (int i = 0; i < size - 1; i++) {
-			if (probability.nextDouble() < context.crossoverProbability) {
+			if (probability.nextDouble() < context.crossoverProbability || retry) {
+				if (retry) {
+					i--;
+					retry = false;
+				}
 				curTree = currentGeneration.get(i);
 				newTree = curTree;
 				secondTree = currentGeneration.get(i + 1);
@@ -106,7 +113,8 @@ public class ECOperations {
 						currentGeneration.add(newTree);
 					}
 				} else if (i > 0)
-					i--;// Retry for same index in case of failed crossover
+					retry = true;// Retry for same index in case of failed
+									// crossover
 			}
 		}
 
@@ -116,11 +124,16 @@ public class ECOperations {
 		BinaryTree curTree, newTree;
 		Random rand = new Random();
 		int nodeIndex, size;
+		boolean retry = false;
 
 		size = currentGeneration.size();
 
 		for (int i = 0; i < size; i++) {
-			if (rand.nextDouble() <= context.mutationProbability) {
+			if (rand.nextDouble() <= context.mutationProbability || retry) {
+				if (retry) {
+					i--;
+					retry = false;
+				}
 				curTree = currentGeneration.get(i);
 				newTree = curTree.clone();
 				nodeIndex = rand.nextInt(context.treeDepth);
@@ -130,7 +143,8 @@ public class ECOperations {
 						currentGeneration.add(newTree);
 					}
 				} else
-					i--;// Retry for same index incase of failed mutation
+					retry = true;// Retry for same index incase of failed
+									// mutation
 			}
 		}
 	}
@@ -139,7 +153,7 @@ public class ECOperations {
 		TrainingData.getInstance().regenerate();
 	}
 
-	public String processNaturalSelection() {
+	public void processNaturalSelection(JTextArea txtOutput) {
 		String output = "";
 		int passIndex = 0;
 		while (currentGeneration.size() > 1) {
@@ -150,7 +164,7 @@ public class ECOperations {
 			output += "\nIteration # " + (passIndex + 1) + "\n";
 			passIndex++;
 			output += StringifyCurrentGeneration();
+			txtOutput.append(output);
 		}
-		return output;
 	}
 }

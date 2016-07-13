@@ -1,12 +1,10 @@
 package Application;
 
-import java.awt.Dialog;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,6 +47,13 @@ public class ECSettings extends JFrame {
 		txtSurThres.setPreferredSize(new Dimension(100, 25));
 		txtSurThres.setText(""+context.survivalThreshold);
 		add(txtSurThres);
+		//
+		JLabel lblMaxIt = new JLabel("Maximum Iterations");
+		add(lblMaxIt);
+		JTextField txtMaxIt = new JTextField();
+		txtMaxIt.setPreferredSize(new Dimension(100, 25));
+		txtMaxIt.setText(""+context.maxIterations);
+		add(txtMaxIt);
 		//
 		JLabel lblMProb = new JLabel("Mutation Probability");
 		add(lblMProb);
@@ -99,6 +104,7 @@ public class ECSettings extends JFrame {
 				context.crossoverProbability= Double.parseDouble(txtCProb.getText());
 				context.mutationProbability=Double.parseDouble(txtMProb.getText());
 				context.survivalThreshold=Integer.parseInt(txtSurThres.getText());
+				context.maxIterations=Integer.parseInt(txtMaxIt.getText());
 				context.trainingDataCount=Integer.parseInt(txtTDataLen.getText());
 				context.trainingDataFrom=Integer.parseInt(txtTDataFrom.getText());
 				context.trainingDataTo=Integer.parseInt(txtTDataTo.getText());
