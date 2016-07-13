@@ -17,7 +17,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import Library.BinaryTree;
 
-
+/*This is the main Launcher class, with main method. 
+ * The main UI of EC system is built in this class
+ * The menu help access the Config settings
+ * */
 public class ECApplication extends JFrame {
 
 	BinaryTree targetExp;
@@ -29,6 +32,7 @@ public class ECApplication extends JFrame {
 		initUI();
 	}
 
+	//Generation of all UI Agents is done in the initUI method
 	private void initUI() {
 		this.setSize(600, 600);
 		JPanel frame = new JPanel(null);
@@ -128,14 +132,16 @@ public class ECApplication extends JFrame {
 		operations.processNaturalSelection(textOutput);
 	}
 
+	//Evaluate method will take the given Target expression as input 
+	//And call separate operations on ECOperations class, sequentially
 	private void Evaluate(String inputExp) {
 		textOutput.setText("");//Reset output
 		operations = new ECOperations();
-		operations.generateFirstGeneration();
+		operations.generateFirstGeneration(); //Generate first generation
 		evaluateFirstGeneration(inputExp);
 		//
-		processNaturalSelection();
-		
+		//This method will loop multiple times to perform selection of expression after multiple generations
+		processNaturalSelection(); 
 	}
 
 	public static void main(String[] args) {

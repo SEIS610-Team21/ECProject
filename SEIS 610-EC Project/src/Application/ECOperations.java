@@ -11,11 +11,14 @@ import Library.BinaryTree;
 import Modules.Context;
 import Modules.TrainingData;
 
+/*
+ * This class contains all major functionalities of EC System
+ * Mutation, Crossover, SelectionOfFittest
+ */
 public class ECOperations {
-	Context context;
-	PopulationGenerator generator;
-	ArrayList<BinaryTree> currentGeneration;
-	// BinaryTree[] currentGeneration;
+	Context context; //configuration context
+	PopulationGenerator generator; //random functions generator
+	ArrayList<BinaryTree> currentGeneration; //Array of trees in current generation
 
 	public ECOperations() {
 		context = Context.getInstance();
@@ -27,6 +30,7 @@ public class ECOperations {
 		generator.generateFirstGeneration(currentGeneration, context.populationSize);
 	}
 
+	//Convert the list of trees into String with Infix representation and fitness values
 	private String StringifyCurrentGeneration() {
 		String _result = "";
 		for (int i = 0; i < currentGeneration.size(); i++) {
@@ -35,6 +39,7 @@ public class ECOperations {
 		return _result;
 	}
 
+	//Check if the expression already exist in current generation, avoid duplicates
 	private boolean expressionExists(BinaryTree exp) {
 		for (int i = 0; i < currentGeneration.size(); i++) {
 			if (exp.root.isEqual(currentGeneration.get(i).root))
