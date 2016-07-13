@@ -137,6 +137,21 @@ public class BinaryTree {
 		} else
 			return false;
 	}
+	
+	public boolean hasVariable(BinaryTreeNode node)
+	{
+		Boolean _result = false;
+		
+		if (node!=null)
+		{
+			if (node.isVairable()) return true;
+			else
+			{
+				return (node.right.isVairable() || node.left.isVairable());
+			}
+		}
+		return _result;
+	}
 
 	public boolean mutate(int atIndex) {
 		BinaryTreeNode myNode = getNodeAtIndex(atIndex, root);

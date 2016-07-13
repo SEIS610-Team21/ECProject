@@ -118,6 +118,7 @@ public class ECSettings extends JFrame {
 		});
 		add(btnOK);
 		//
+		this.setLocationRelativeTo(null);
 		setVisible(true);
 		
 	}

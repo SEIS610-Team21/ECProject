@@ -16,6 +16,14 @@ public class OperandNode extends BinaryTreeNode {
 		}
 		return Double.parseDouble(String.valueOf(data));
 	}
+	@Override
+	public boolean isVairable() 
+	{
+		if (data == 'x' || data == 'X') 
+			return true;
+		else
+			return false;
+	}
 
 	@Override
 	public boolean mutate() {

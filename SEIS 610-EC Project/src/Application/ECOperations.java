@@ -55,27 +55,24 @@ public class ECOperations {
 		output += StringifyCurrentGeneration();
 		return output;
 	}
+	
+	private void sortTree(ArrayList<BinaryTree> trees)
+	{
+		trees.sort(new Comparator<BinaryTree>() {
+			@Override
+			public int compare(BinaryTree o1, BinaryTree o2) {
+				return Double.compare(o1.fitnessValue, o2.fitnessValue);
+			}
+
+		});
+	}
 
 	private void processTerminationOfUnfit() {
 		ArrayList<BinaryTree> trees = (ArrayList<BinaryTree>) currentGeneration.clone();
 		this.currentGeneration.clear();
 		BinaryTree curTree;
 		int index = 0;
-		trees.sort(new Comparator<BinaryTree>() {
-			@Override
-			public int compare(BinaryTree o1, BinaryTree o2) {
-				return Double.compare(o1.fitnessValue, o2.fitnessValue);
-				// if (o1.fitnessValue > o2.fitnessValue)
-				// return 1;
-				// else if (o1.fitnessValue < o2.fitnessValue)
-				// return -1;
-				// else if (o1.fitnessValue == o1.fitnessValue)
-				// return 0;
-				// else
-				// return -1;
-			}
-
-		});
+		this.sortTree(trees);
 		int cutOffRange = Math.round(trees.size() * ((float) (context.survivalThreshold) / 100));
 		for (int i = 0; i < cutOffRange; i++) {
 			curTree = trees.get(i);
@@ -156,7 +153,7 @@ public class ECOperations {
 	public void processNaturalSelection(JTextArea txtOutput) {
 		String output = "";
 		int passIndex = 0;
-		while (currentGeneration.size() > 1) {
+		while (currentGeneration.size() > 1 && passIndex < context.maxIterations) {
 			regenerateTrainingData();
 			processTerminationOfUnfit();
 			processCrossOver();
@@ -166,5 +163,10 @@ public class ECOperations {
 			output += StringifyCurrentGeneration();
 			txtOutput.append(output);
 		}
+	}
+	public BinaryTree getResultExpression()
+	{
+		this.sortTree(this.currentGeneration);
+		return this.currentGeneration.get(0);
 	}
 }

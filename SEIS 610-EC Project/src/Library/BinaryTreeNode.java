@@ -23,6 +23,8 @@ public abstract class BinaryTreeNode {
 	}
 	public abstract BinaryTreeNode clone();
 	
+	public boolean isVairable(){return false;}
+	
 	public boolean isEqual(BinaryTreeNode other)
 	{
 		boolean _result;

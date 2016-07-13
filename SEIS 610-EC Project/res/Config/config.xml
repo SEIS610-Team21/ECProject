@@ -2,11 +2,11 @@
 	<PopulationSize>200</PopulationSize>
 	<TreeDepth>10</TreeDepth>
 	<PolyDegree>2</PolyDegree>
-	<SurvivalThreshold>50</SurvivalThreshold>
+	<SurvivalThreshold>40</SurvivalThreshold>
 	<MaximumIterations>100</MaximumIterations>
 	<TrainingDataFrom>-100</TrainingDataFrom>
 	<TrainingDataTo>100</TrainingDataTo>
 	<TrainingDataCount>100</TrainingDataCount>
-	<MutationProbability>0.8</MutationProbability>
-	<CrossoverProbability>0.8</CrossoverProbability>
+	<MutationProbability>0.9</MutationProbability>
+	<CrossoverProbability>0.5</CrossoverProbability>
 </Config>

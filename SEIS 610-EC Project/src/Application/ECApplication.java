@@ -25,8 +25,7 @@ public class ECApplication extends JFrame {
 	JTextArea textOutput;
 
 	public ECApplication() {
-		targetExp = new BinaryTree();
-		operations = new ECOperations();		
+		targetExp = new BinaryTree();		
 		initUI();
 	}
 
@@ -56,25 +55,36 @@ public class ECApplication extends JFrame {
 		frame.add(topPanel);
 		//
 		JPanel centerPanel = new JPanel(null);
-		centerPanel.setLocation(10, 100);
+		centerPanel.setLocation(10, 110);
 		centerPanel.setSize(560, 380);
 		centerPanel.setBorder(new TitledBorder(new EtchedBorder(), ""));
 		//
 		textOutput = new JTextArea();
-		textOutput.setLocation(10, 10);
-		textOutput.setSize(540, 480);
+		//textOutput.setLocation(10, 10);
+		//textOutput.setSize(540, 480);
 		textOutput.setEditable(false);
 		JScrollPane scroll = new JScrollPane(textOutput);
+		scroll.setLocation(10, 10);
+		scroll.setSize(540, 360);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		centerPanel.add(scroll);
-		centerPanel.add(textOutput);
+		//centerPanel.add(textOutput);
 		//
 		frame.add(centerPanel);
 		//
 		JPanel bottomPanel = new JPanel(null);
 		bottomPanel.setLocation(10, 500);
 		bottomPanel.setSize(560, 50);
+		//
+		JLabel lblResult = new JLabel("Resultant Approx. Expression : ");
+		lblResult.setLocation(0,10);
+		lblResult.setSize(180, 25);
+		bottomPanel.add(lblResult);
+		JTextField txtResult = new JTextField();
+		txtResult.setLocation(185,10);
+		txtResult.setSize(375, 25);
+		bottomPanel.add(txtResult);
 		frame.add(bottomPanel);
 		//
 		btnExecute.addActionListener(new ActionListener() {
@@ -82,6 +92,8 @@ public class ECApplication extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Evaluate('(' + txtTargetExp.getText() + ')');
+				BinaryTree result = operations.getResultExpression();
+				txtResult.setText(result.inOrder(result.root));
 			}
 		});
 		// Menu Bar
@@ -118,10 +130,12 @@ public class ECApplication extends JFrame {
 
 	private void Evaluate(String inputExp) {
 		textOutput.setText("");//Reset output
+		operations = new ECOperations();
 		operations.generateFirstGeneration();
 		evaluateFirstGeneration(inputExp);
 		//
 		processNaturalSelection();
+		
 	}
 
 	public static void main(String[] args) {
