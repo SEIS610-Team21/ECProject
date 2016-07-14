@@ -50,7 +50,6 @@ public class ECOperations {
 
 	public String evaluateFirstGeneration(String inputExp, BinaryTree targetTree) {
 		String output;
-		targetTree = new BinaryTree();
 		if (targetTree.buildFromString(inputExp))
 		{
 		TrainingData.getInstance().Generate(context.trainingDataCount, targetTree);
@@ -175,7 +174,7 @@ public class ECOperations {
 			processTerminationOfUnfit();
 			processCrossOver();
 			processMutation();
-			output += "\nIteration # " + (passIndex + 1) + "\n";
+			output = "\nIteration # " + (passIndex + 1) + "\n";
 			passIndex++;
 			output += StringifyCurrentGeneration();
 			txtOutput.append(output);
