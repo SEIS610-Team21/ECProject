@@ -39,15 +39,6 @@ public class ECOperations {
 		return _result;
 	}
 
-	//Check if the expression already exist in current generation, avoid duplicates
-	private boolean expressionExists(BinaryTree exp) {
-		for (int i = 0; i < currentGeneration.size(); i++) {
-			if (exp.root.isEqual(currentGeneration.get(i).root))
-				return true;
-		}
-		return false;
-	}
-
 	public String evaluateFirstGeneration(String inputExp, BinaryTree targetTree) {
 		String output;
 		if (targetTree.buildFromString(inputExp))
@@ -87,7 +78,7 @@ public class ECOperations {
 		int cutOffRange = Math.round(trees.size() * ((float) (context.survivalThreshold) / 100));
 		for (int i = 0; i < cutOffRange; i++) {
 			curTree = trees.get(i);
-			if (!expressionExists(curTree)) {
+			if (!curTree.existsInList(currentGeneration)) {
 				this.currentGeneration.add(index, curTree);
 				index++;
 			}
@@ -120,7 +111,7 @@ public class ECOperations {
 				firstTreeNode = rand.nextInt(context.treeDepth / 2) + 1;
 				secondTreeNode = rand.nextInt(context.treeDepth / 2) + 1;
 				if ((newTree.crossOver(secondTree, secondTreeNode, firstTreeNode))) {
-					if (!expressionExists(newTree)) {
+					if (!newTree.existsInList(currentGeneration)) {
 						newTree.evaluate();
 						currentGeneration.add(newTree);
 						retries=0;
@@ -151,7 +142,7 @@ public class ECOperations {
 				newTree = curTree.clone();
 				nodeIndex = rand.nextInt(context.treeDepth);
 				if (newTree.mutate(nodeIndex)) {
-					if (!expressionExists(newTree)) {
+					if (!newTree.existsInList(currentGeneration)) {
 						newTree.evaluate();
 						currentGeneration.add(newTree);
 					}

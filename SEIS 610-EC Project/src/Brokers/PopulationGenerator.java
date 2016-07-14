@@ -16,13 +16,13 @@ public class PopulationGenerator {
 
 	public void generateFirstGeneration(ArrayList<BinaryTree> set, int populationSize) {
 		for (int i = 0; i < populationSize; i++) {
-			hasPoly=false;
+			hasPoly = false;
 			BinaryTree curTree = null;
 			try {
 				curTree = this.generateRandomExpression(Context.getInstance().treeDepth);
 			} catch (StackOverflowError e) {
 			}
-			if (curTree != null)
+			if ((curTree != null) && (!curTree.existsInList(set)))
 				set.add(i, curTree);
 			else
 				i--;
@@ -63,29 +63,26 @@ public class PopulationGenerator {
 		_result += generateExpression(depth);
 		return _result;
 	}
-	
-	private String generateNthDegreeOperand(int degree)
-	{
-		String _result="x";
-		for(int i=1; i<degree; i++)
-		{
-			_result +="*x";
+
+	private String generateNthDegreeOperand(int degree) {
+		String _result = "x";
+		for (int i = 1; i < degree; i++) {
+			_result += "*x";
 		}
 		return _result;
 	}
 
 	private String generateExpression(int depth) {
 		String _result = "";
-		if (depth <= 0) depth = 1;
+		if (depth <= 0)
+			depth = 1;
 		int rInt = rand.nextInt(depth);
 		if (rInt == 0)
 			_result = generateOperand();
-		else if(rInt==(depth-1) && !hasPoly)
-		{
-			_result ="("+generateNthDegreeOperand(Context.getInstance().degree)+")";
-			hasPoly=true;
-		}
-		else
+		else if (rInt == (depth - 1) && !hasPoly) {
+			_result = "(" + generateNthDegreeOperand(Context.getInstance().degree) + ")";
+			hasPoly = true;
+		} else
 			_result = "(" + generateSubExpression(depth - 2) + ")";
 		return _result;
 	}

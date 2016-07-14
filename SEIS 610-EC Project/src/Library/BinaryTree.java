@@ -1,5 +1,6 @@
 package Library;
 
+import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Stack;
 import Brokers.NodeCreationBroker;
@@ -178,5 +179,13 @@ public class BinaryTree {
 		_result.evaluate();
 		return _result;
 	}
-
+	
+	public boolean existsInList(ArrayList<BinaryTree> list)
+	{
+		for (int i = 0; i < list.size(); i++) {
+			if (this.root.isEqual(list.get(i).root))
+				return true;
+		}
+		return false;
+	}
 }
