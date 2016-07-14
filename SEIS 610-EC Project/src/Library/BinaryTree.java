@@ -1,5 +1,6 @@
 package Library;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 import Brokers.NodeCreationBroker;
 import Modules.TrainingData;
@@ -34,8 +35,13 @@ public class BinaryTree {
 		st.pop();
 		return _result;
 	}
+	
+	public boolean isEmpty()
+	{
+		return (root==null);
+	}
 
-	private BinaryTreeNode _buildInfix(char expression[]) {
+	private BinaryTreeNode _buildInfix(char expression[]) throws EmptyStackException {
 		BinaryTreeNode _result;
 
 		Stack<BinaryTreeNode> st = new Stack();
@@ -59,9 +65,15 @@ public class BinaryTree {
 		return _result;
 	}
 
-	public void buildFromString(String expression) {
+	public boolean buildFromString(String expression) {
 		char[] expArray = expression.toCharArray();
-		this.root = _buildInfix(expArray);
+		try {
+			this.root = _buildInfix(expArray);
+			return true;
+		} catch (EmptyStackException e) {
+			return false;
+		}
+
 	}
 
 	public double evaluate() {
@@ -137,16 +149,14 @@ public class BinaryTree {
 		} else
 			return false;
 	}
-	
-	public boolean hasVariable(BinaryTreeNode node)
-	{
+
+	public boolean hasVariable(BinaryTreeNode node) {
 		Boolean _result = false;
-		
-		if (node!=null)
-		{
-			if (node.isVairable()) return true;
-			else
-			{
+
+		if (node != null) {
+			if (node.isVairable())
+				return true;
+			else {
 				return (node.right.isVairable() || node.left.isVairable());
 			}
 		}

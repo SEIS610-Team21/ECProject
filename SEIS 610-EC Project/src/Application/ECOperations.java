@@ -51,13 +51,21 @@ public class ECOperations {
 	public String evaluateFirstGeneration(String inputExp, BinaryTree targetTree) {
 		String output;
 		targetTree = new BinaryTree();
-		targetTree.buildFromString(inputExp);
+		if (targetTree.buildFromString(inputExp))
+		{
 		TrainingData.getInstance().Generate(context.trainingDataCount, targetTree);
 		//
 		output = "The Target Expression : ";
 		output += targetTree.inOrder(targetTree.root) + "\n\n";
 		output += "First generation expressions" + "\n";
 		output += StringifyCurrentGeneration();
+		}
+		else
+		{
+			output ="Error: The provided Target expression is not in proper format.\n";
+			output+="Please provide appropriate parenthesized expression and try again...\n";
+			output+="Example : ((x*x)-1)/2";
+		}
 		return output;
 	}
 

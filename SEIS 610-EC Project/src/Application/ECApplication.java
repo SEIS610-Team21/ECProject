@@ -26,13 +26,13 @@ public class ECApplication extends JFrame {
 	BinaryTree targetExp;
 	ECOperations operations;
 	JTextArea textOutput;
-
+	JTextField txtResult;
 	public ECApplication() {
-		targetExp = new BinaryTree();		
+		targetExp = new BinaryTree();
 		initUI();
 	}
 
-	//Generation of all UI Agents is done in the initUI method
+	// Generation of all UI Agents is done in the initUI method
 	private void initUI() {
 		this.setSize(600, 600);
 		JPanel frame = new JPanel(null);
@@ -64,8 +64,8 @@ public class ECApplication extends JFrame {
 		centerPanel.setBorder(new TitledBorder(new EtchedBorder(), ""));
 		//
 		textOutput = new JTextArea();
-		//textOutput.setLocation(10, 10);
-		//textOutput.setSize(540, 480);
+		// textOutput.setLocation(10, 10);
+		// textOutput.setSize(540, 480);
 		textOutput.setEditable(false);
 		JScrollPane scroll = new JScrollPane(textOutput);
 		scroll.setLocation(10, 10);
@@ -73,7 +73,7 @@ public class ECApplication extends JFrame {
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		centerPanel.add(scroll);
-		//centerPanel.add(textOutput);
+		// centerPanel.add(textOutput);
 		//
 		frame.add(centerPanel);
 		//
@@ -82,11 +82,11 @@ public class ECApplication extends JFrame {
 		bottomPanel.setSize(560, 50);
 		//
 		JLabel lblResult = new JLabel("Resultant Approx. Expression : ");
-		lblResult.setLocation(0,10);
+		lblResult.setLocation(0, 10);
 		lblResult.setSize(180, 25);
 		bottomPanel.add(lblResult);
-		JTextField txtResult = new JTextField();
-		txtResult.setLocation(185,10);
+		txtResult = new JTextField();
+		txtResult.setLocation(185, 10);
 		txtResult.setSize(375, 25);
 		bottomPanel.add(txtResult);
 		frame.add(bottomPanel);
@@ -95,9 +95,7 @@ public class ECApplication extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Evaluate('(' + txtTargetExp.getText() + ')');
-				BinaryTree result = operations.getResultExpression();
-				txtResult.setText(result.inOrder(result.root));
+				Evaluate('(' + txtTargetExp.getText() + ')');				
 			}
 		});
 		// Menu Bar
@@ -107,7 +105,7 @@ public class ECApplication extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ECSettings settings = new ECSettings();				
+				ECSettings settings = new ECSettings();
 			}
 		});
 		mBar.add(menu);
@@ -125,23 +123,29 @@ public class ECApplication extends JFrame {
 		output = operations.evaluateFirstGeneration(inputExp, targetExp);
 		textOutput.setText(output);
 	}
-	
-	private void processNaturalSelection()
-	{
-		textOutput.append("\n"+"After Process:"+"\n");
+
+	private void processNaturalSelection() {
+		textOutput.append("\n" + "After Process:" + "\n");
 		operations.processNaturalSelection(textOutput);
 	}
 
-	//Evaluate method will take the given Target expression as input 
-	//And call separate operations on ECOperations class, sequentially
+	// Evaluate method will take the given Target expression as input
+	// And call separate operations on ECOperations class, sequentially
 	private void Evaluate(String inputExp) {
-		textOutput.setText("");//Reset output
+		textOutput.setText("");// Reset output
 		operations = new ECOperations();
-		operations.generateFirstGeneration(); //Generate first generation
+		operations.generateFirstGeneration(); // Generate first generation
 		evaluateFirstGeneration(inputExp);
 		//
-		//This method will loop multiple times to perform selection of expression after multiple generations
-		processNaturalSelection(); 
+		if (!targetExp.isEmpty()) {
+			// This method will loop multiple times to perform selection of
+			// expression after multiple generations
+			processNaturalSelection();
+			//
+			//get the resultant approximate expression and display output
+			BinaryTree result = operations.getResultExpression();
+			txtResult.setText(result.inOrder(result.root));
+		}
 	}
 
 	public static void main(String[] args) {
