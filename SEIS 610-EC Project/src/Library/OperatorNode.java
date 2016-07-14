@@ -64,7 +64,4 @@ public class OperatorNode extends BinaryTreeNode {
 		_result =_result && (this.right.isEqual(other.right));
 		return _result;
 	}
-	
-	
-
 }

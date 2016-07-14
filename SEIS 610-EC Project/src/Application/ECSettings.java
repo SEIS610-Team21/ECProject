@@ -69,7 +69,7 @@ public class ECSettings extends JFrame {
 		txtCProb.setText("" + context.crossoverProbability);
 		add(txtCProb);
 		//
-		JLabel lblTDataLen = new JLabel("Training Data length");
+		JLabel lblTDataLen = new JLabel("Number of Training Data");
 		add(lblTDataLen);
 		JTextField txtTDataLen = new JTextField();
 		txtTDataLen.setPreferredSize(new Dimension(100, 25));

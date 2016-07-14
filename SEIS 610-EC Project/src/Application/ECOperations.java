@@ -176,4 +176,11 @@ public class ECOperations {
 		this.sortTree(this.currentGeneration);
 		return this.currentGeneration.get(0);
 	}
+	
+	public BinaryTree simplifyExpression(BinaryTree exp)
+	{
+		BinaryTree _result= new BinaryTree();
+		
+		return _result;
+	}
 }
