@@ -16,9 +16,10 @@ import Modules.TrainingData;
  * Mutation, Crossover, SelectionOfFittest
  */
 public class ECOperations {
-	Context context; //configuration context
-	PopulationGenerator generator; //random functions generator
-	ArrayList<BinaryTree> currentGeneration; //Array of trees in current generation
+	Context context; // configuration context
+	PopulationGenerator generator; // random functions generator
+	ArrayList<BinaryTree> currentGeneration; // Array of trees in current
+												// generation
 
 	public ECOperations() {
 		context = Context.getInstance();
@@ -30,7 +31,8 @@ public class ECOperations {
 		generator.generateFirstGeneration(currentGeneration, context.populationSize);
 	}
 
-	//Convert the list of trees into String with Infix representation and fitness values
+	// Convert the list of trees into String with Infix representation and
+	// fitness values
 	private String StringifyCurrentGeneration() {
 		String _result = "";
 		for (int i = 0; i < currentGeneration.size(); i++) {
@@ -41,20 +43,17 @@ public class ECOperations {
 
 	public String evaluateFirstGeneration(String inputExp, BinaryTree targetTree) {
 		String output;
-		if (targetTree.buildFromString(inputExp))
-		{
-		TrainingData.getInstance().Generate(context.trainingDataCount, targetTree);
-		//
-		output = "The Target Expression : ";
-		output += targetTree.inOrder(targetTree.root) + "\n\n";
-		output += "First generation expressions" + "\n";
-		output += StringifyCurrentGeneration();
-		}
-		else
-		{
-			output ="Error: The provided Target expression is not in proper format.\n";
-			output+="Please provide appropriate parenthesized expression and try again...\n";
-			output+="Example : ((x*x)-1)/2";
+		if (targetTree.buildFromString(inputExp)) {
+			TrainingData.getInstance().Generate(context.trainingDataCount, targetTree);
+			//
+			output = "The Target Expression : ";
+			output += targetTree.inOrder(targetTree.root) + "\n\n";
+			output += "First generation expressions" + "\n";
+			output += StringifyCurrentGeneration();
+		} else {
+			output = "Error: The provided Target expression is not in proper format.\n";
+			output += "Please provide appropriate parenthesized expression and try again...\n";
+			output += "Example : ((x*x)-1)/2";
 		}
 		return output;
 	}
@@ -85,6 +84,11 @@ public class ECOperations {
 		}
 	}
 
+	/*
+	 * Process Crossover between two adjacent trees, at randomly selected nodes
+	 * If the attempt to crossover fails, it will be retried 5 times
+	 * The result expression will be added to the list
+	 */
 	private void processCrossOver() {
 		BinaryTree curTree, secondTree, newTree;
 		Random rand = new Random();
@@ -98,12 +102,13 @@ public class ECOperations {
 		for (int i = 0; i < size - 1; i++) {
 			if (probability.nextDouble() < context.crossoverProbability || retry) {
 				if (retry) {
-					i--; retries++;
+					i--;
+					retries++;
 					retry = false;
 				}
-				if(retries>=5)
-				{
-					retries=0; continue;
+				if (retries >= 5) {
+					retries = 0;
+					continue;
 				}
 				curTree = currentGeneration.get(i);
 				newTree = curTree;
@@ -114,7 +119,7 @@ public class ECOperations {
 					if (!newTree.existsInList(currentGeneration)) {
 						newTree.evaluate();
 						currentGeneration.add(newTree);
-						retries=0;
+						retries = 0;
 					}
 				} else if (i > 0)
 					retry = true;// Retry for same index in case of failed
@@ -124,6 +129,11 @@ public class ECOperations {
 
 	}
 
+	/*
+	 * Process mutation on randomly selected node
+	 * If the attempt to mutation fails, it will be retried
+	 * The result expression will be added to the list
+	 */
 	private void processMutation() {
 		BinaryTree curTree, newTree;
 		Random rand = new Random();
@@ -176,11 +186,10 @@ public class ECOperations {
 		this.sortTree(this.currentGeneration);
 		return this.currentGeneration.get(0);
 	}
-	
-	public BinaryTree simplifyExpression(BinaryTree exp)
-	{
-		BinaryTree _result= new BinaryTree();
-		
+
+	public BinaryTree simplifyExpression(BinaryTree exp) {
+		BinaryTree _result = new BinaryTree();
+
 		return _result;
 	}
 }

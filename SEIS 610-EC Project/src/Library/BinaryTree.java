@@ -158,7 +158,7 @@ public class BinaryTree {
 			if (node.isVairable())
 				return true;
 			else {
-				return (node.right.isVairable() || node.left.isVairable());
+				return (hasVariable(node.right) || hasVariable(node.left));
 			}
 		}
 		return _result;

@@ -22,7 +22,7 @@ public class PopulationGenerator {
 				curTree = this.generateRandomExpression(Context.getInstance().treeDepth);
 			} catch (StackOverflowError e) {
 			}
-			if ((curTree != null) && (!curTree.existsInList(set)))
+			if ((curTree != null) && (!curTree.existsInList(set)) && curTree.hasVariable(curTree.root))
 				set.add(i, curTree);
 			else
 				i--;
