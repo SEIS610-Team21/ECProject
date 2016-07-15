@@ -82,6 +82,8 @@ public class ECOperations {
 				index++;
 			}
 		}
+		if(currentGeneration.size()==0)
+			this.currentGeneration.add(trees.get(0));
 	}
 
 	/*
@@ -185,11 +187,5 @@ public class ECOperations {
 	public BinaryTree getResultExpression() {
 		this.sortTree(this.currentGeneration);
 		return this.currentGeneration.get(0);
-	}
-
-	public BinaryTree simplifyExpression(BinaryTree exp) {
-		BinaryTree _result = new BinaryTree();
-
-		return _result;
 	}
 }

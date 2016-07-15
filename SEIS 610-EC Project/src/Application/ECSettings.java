@@ -110,7 +110,21 @@ public class ECSettings extends JFrame {
 					context.trainingDataFrom = Integer.parseInt(txtTDataFrom.getText());
 					context.trainingDataTo = Integer.parseInt(txtTDataTo.getText());
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(getContentPane(), "Invalid Input : "+ ex.getMessage(), "Invalid Input", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getContentPane(), "Invalid Input : " + ex.getMessage(),
+							"Invalid Input", JOptionPane.ERROR_MESSAGE);
+				}
+				if (context.crossoverProbability > 1.0) {
+					JOptionPane.showMessageDialog(getContentPane(),
+							"Invalid Input : Crossover Probability cannot exceed 1.0", "Invalid Input",
+							JOptionPane.ERROR_MESSAGE);
+					context.crossoverProbability=1.0;
+				}
+				if (context.mutationProbability > 1.0) {
+					JOptionPane.showMessageDialog(getContentPane(),
+							"Invalid Input : Mutation Probability cannot exceed 1.0", "Invalid Input",
+							JOptionPane.ERROR_MESSAGE);
+					context.mutationProbability=1.0;
+
 				}
 
 				try {
