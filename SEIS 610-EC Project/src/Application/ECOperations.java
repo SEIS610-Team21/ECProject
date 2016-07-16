@@ -172,6 +172,7 @@ public class ECOperations {
 	public void processNaturalSelection(JTextArea txtOutput) {
 		String output = "";
 		int passIndex = 0;
+		long beginTime = System.currentTimeMillis();
 		while (currentGeneration.size() > 1 && passIndex < context.maxIterations) {
 			regenerateTrainingData();
 			processTerminationOfUnfit();
@@ -182,6 +183,8 @@ public class ECOperations {
 			output += StringifyCurrentGeneration();
 			txtOutput.append(output);
 		}
+		double totalTime = (double)(System.currentTimeMillis()-beginTime)/1000.0;
+		txtOutput.append("\n\nTotal time taken : "+totalTime+" Seconds");
 	}
 
 	public BinaryTree getResultExpression() {
